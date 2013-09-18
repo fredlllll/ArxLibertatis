@@ -48,6 +48,10 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 #include <stddef.h>
 
+#include <BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h>
+
+#include "game/Equipment.h"
+
 #include "graphics/GraphicsTypes.h"
 #include "graphics/data/Mesh.h"
 #include "math/Vector.h"
@@ -101,7 +105,7 @@ static void ComputeForces(PHYSVERT * phys, long nb) {
 
 	float lastmass = 1.f;
 	float div = 1.f;
-
+	
 	for(long k = 0; k < nb; k++) {
 
 		PHYSVERT * pv = &phys[k];

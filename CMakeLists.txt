@@ -47,6 +47,7 @@ option(BUILD_IO_LIBRARY "Build shared library for reading and writing arx data" 
 option(INSTALL_SCRIPTS "Install the data install script" ON)
 
 # Optional dependencies
+option(USE_BULLET "Build the Bullet physics backend" ON)
 option(USE_OPENAL "Build the OpenAL audio backend" ON)
 option(USE_OPENGL "Build the OpenGL renderer backend" ON)
 option(USE_NATIVE_FS "Use the native filesystem backend directly instead of boost" ON)
@@ -350,6 +351,12 @@ if(USE_OPENAL)
 	if(NOT MSVC AND OPENAL_FOUND)
 		check_link_library(OpenAL OPENAL_LIBRARY)
 	endif()
+endif()
+
+# Bullet
+if(USE_BULLET)
+	find_package(Bullet ${OPTIONAL_DEPENDENCY})
+	check_link_library(Bullet BULLET_LIBRARIES)
 endif()
 
 # SDL
@@ -883,6 +890,10 @@ set(PHYSICS_SOURCES
 	src/physics/CollisionShapes.cpp
 	src/physics/Projectile.cpp
 	src/physics/Physics.cpp
+	src/physics/bullet/BulletTypes.h
+	src/physics/bullet/BulletPhysicsBackend.cpp
+	src/physics/bullet/DebugDrawer.cpp
+	src/physics/bullet/ArrowPhysics.cpp
 )
 
 # Basic platform abstraction sources
@@ -990,6 +1001,13 @@ else()
 	unset(ARX_HAVE_SDL)
 	unset(ARX_HAVE_SDL1)
 	unset(ARX_HAVE_SDL2)
+endif()
+
+# Physics
+if(USE_BULLET)
+	list(APPEND ARX_LIBRARIES ${BULLET_LIBRARIES})
+	include_directories(SYSTEM ${BULLET_INCLUDE_DIR})
+	set(ARX_HAVE_BULLET 1)
 endif()
 
 # Windowing / input

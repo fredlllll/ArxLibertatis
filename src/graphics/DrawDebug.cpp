@@ -53,6 +53,7 @@
 
 #include "physics/Anchors.h"
 #include "physics/Collisions.h"
+#include "physics/bullet/BulletPhysicsBackend.h"
 
 #include "scene/Interactive.h"
 #include "scene/Light.h"
@@ -91,6 +92,7 @@ enum DebugViewType {
 	DebugView_Portals,
 	DebugView_Materials,
 	DebugView_Damages,
+	DebugView_Physics,
 	DebugViewCount
 };
 
@@ -887,6 +889,11 @@ void drawDebugRender() {
 		case DebugView_Damages: {
 			ss << "Damages";
 			ARX_DAMAGES_DrawDebug();
+			break;
+		}
+		case DebugView_Physics: {
+			ss << "Physics";
+			g_bulletPhysics->DrawBackgroundMesh();
 			break;
 		}
 		default: return;

@@ -86,6 +86,7 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #include "io/Implode.h"
 #include "io/log/Logger.h"
 
+#include "physics/bullet/BulletPhysicsBackend.h"
 #include "physics/CollisionShapes.h"
 
 #include "scene/Object.h"
@@ -935,6 +936,8 @@ bool DanaeLoadLevel(const res::path & file, bool loadEntities) {
 	LOADEDD = 1;
 	FASTmse = 0;
 	USE_PLAYERCOLLISIONS = true;
+	
+	g_bulletPhysics->AddBackground();
 	
 	LogInfo << "Done loading level";
 	
